@@ -145,6 +145,10 @@
 			isa = PBXBuildFile;
 			fileRef = 3A33331E3934F289B602CC9B;
 		};
+		DC51720F49D6676B8B2EE24B = {
+			isa = PBXBuildFile;
+			fileRef = 4E7959C0AE1163AA978313DB;
+		};
 		486BD82F2BFDBAF596CD1C4B = {
 			isa = PBXBuildFile;
 			fileRef = E53D6544C8953C8706158C08;
@@ -226,6 +230,13 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_audio_processors.mm";
 			path = "../../JuceLibraryCode/include_juce_audio_processors.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		4E7959C0AE1163AA978313DB = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.objcpp;
+			name = "include_juce_dsp.mm";
+			path = "../../JuceLibraryCode/include_juce_dsp.mm";
 			sourceTree = "SOURCE_ROOT";
 		};
 		4EC21223DD3F8DE4B155DB69 = {
@@ -401,6 +412,13 @@
 			lastKnownFileType = file;
 			name = "juce_opengl";
 			path = "/Users/Alex/Documents/SDK/JUCE/modules/juce_opengl";
+			sourceTree = "<absolute>";
+		};
+		8B368E1F670C54539B73A8B2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = "juce_dsp";
+			path = "/Users/Alex/Documents/SDK/JUCE/modules/juce_dsp";
 			sourceTree = "<absolute>";
 		};
 		8D8A03625C72CA76C14241AF = {
@@ -630,6 +648,7 @@
 				ABEFFA677A36A79BE84D5C89,
 				BB1BC45FC212A97F2F99D575,
 				EB39638167C501764380E9C1,
+				8B368E1F670C54539B73A8B2,
 				4EC21223DD3F8DE4B155DB69,
 				180BF42372E5B11E2E035D57,
 				0C7906445C420C622A7BB79D,
@@ -658,6 +677,7 @@
 				533315B909F3F84A10AB3486,
 				D258FC9B9666B750053C8BCD,
 				3A33331E3934F289B602CC9B,
+				4E7959C0AE1163AA978313DB,
 				E53D6544C8953C8706158C08,
 				1719A89DE0569AAF769BDB97,
 				774F05CA3FD69773A5E71F50,
@@ -1483,6 +1503,7 @@
 				B0C736B509E8C0F086CE2660,
 				A3E64C94C74ED1DE6B3D18E5,
 				E90B8658578F8755777EC020,
+				DC51720F49D6676B8B2EE24B,
 				486BD82F2BFDBAF596CD1C4B,
 				2C28BD1E06DBA41F9F5EB473,
 				28675AEDAE833BAD17E33153,

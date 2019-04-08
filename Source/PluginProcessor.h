@@ -54,15 +54,33 @@ public:
     //==============================================================================
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    //Dsp gain
+    
+    dsp::Gain<float> gain;
 
+     //float mixLevel;
+    SmoothedValue<float>mixLevel;
+    SmoothedValue<float>freqLevel;
+    
+   
+    
 private:
+    
+
+    
     float currentSampleRate;
     float currentAngle;
     float angleDelta;
     float sinFreq;
     
+  
+    
     void updateAngleDelta();
     Random random;
+    
+    
+    
     
     
 

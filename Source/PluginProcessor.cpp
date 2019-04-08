@@ -28,7 +28,12 @@ Maggs_a2AudioProcessor::Maggs_a2AudioProcessor()
     currentAngle = 0.0f;
     angleDelta = 0.0f;
     sinFreq = 300.0f;
+   
+    
+    
 }
+
+
 
 Maggs_a2AudioProcessor::~Maggs_a2AudioProcessor()
 {
@@ -92,6 +97,9 @@ const String Maggs_a2AudioProcessor::getProgramName (int index)
     return {};
 }
 
+
+
+
 void Maggs_a2AudioProcessor::changeProgramName (int index, const String& newName)
 {
 }
@@ -102,8 +110,23 @@ void Maggs_a2AudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
     currentSampleRate = sampleRate;
-    sinFreq = 600.0f;
+    sinFreq = 300.0f;
+    
     updateAngleDelta();
+    
+    
+    
+    //initilize mixLevel
+    mixLevel.reset(sampleRate, 0.1f);
+    mixLevel.setTargetValue(0.25f);
+    
+    //initilize freqlevel
+    freqLevel.reset(sampleRate, 0.01f);
+    freqLevel.setTargetValue(0.0);
+    
+    
+    
+    gain.setGainDecibels(12.0f);
     
     String message;
     message << "Preparing to play..." << newLine;
@@ -111,6 +134,7 @@ void Maggs_a2AudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     message << "Buffer size is" << samplesPerBlock << newLine;
     Logger::getCurrentLogger()->writeToLog(message);
 }
+
 
 void Maggs_a2AudioProcessor::releaseResources()
 {
@@ -171,6 +195,8 @@ void Maggs_a2AudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
         auto* channelData = buffer.getWritePointer (channel);
         auto* wetData = wetBuffer.getWritePointer(channel);
         
+        
+        
         for(int sample = 0; sample < buffer.getNumSamples(); sample++)
         {
             //generating a set of random values to modulate input aplitude
@@ -180,8 +206,8 @@ void Maggs_a2AudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
             
             //Ring Mod \/
             
-            
-            
+            sinFreq = freqLevel.getNextValue();
+            updateAngleDelta();
             
             // Best to use a slow piano sample as it does cool stuff to the frequencies and also can kind of sound like a vinyl crackle sim. Doesnt work well with drums as it picks out som gross frequencies
             
@@ -203,17 +229,26 @@ void Maggs_a2AudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
             
             //Wet/dry Mix
             
-            channelData[sample] = channelData[sample] * 0.4f + wetData[sample] * 0.6;
+            //channelData[sample] = channelData[sample] * 0.4 + wetData[sample] * 0.6f;
+            
+          
             
             //Gain down so no clipping 
             
-            channelData[sample] = channelData[sample] * 0.4;
+            //channelData[sample] = channelData[sample] * 0.4;
+            
+            //channelData[sample] = channelData[sample] * 0.5f + wetData[sample] 0.5f;
+            channelData[sample] = channelData[sample] * (1.0f - (mixLevel.getNextValue()*0.01f)) + ((wetData[sample] * mixLevel.getNextValue()) * 0.01f);
+            
+            channelData[sample] = channelData[sample] *0.4f;
          }
-        
-
-        // ..do something to the data...
     }
+    dsp::AudioBlock<float> output(buffer);
+    gain.process(dsp::ProcessContextReplacing<float>(output));
 }
+
+
+
 
 //==============================================================================
 bool Maggs_a2AudioProcessor::hasEditor() const
@@ -249,13 +284,19 @@ void Maggs_a2AudioProcessor:: updateAngleDelta()
 {
     //Calculate no. of cycles we will need to complete for each output sample
     auto cyclePerSample = sinFreq / currentSampleRate;
+    //auto cyclesPerSample = freqLevel.getValue() / currentSampleRate;
     // Multiply by the length of a wholse sin wave cycle
     angleDelta = cyclePerSample *  MathConstants<float>::twoPi;
 
 }
 
+
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new Maggs_a2AudioProcessor();
+    
 }
+
+
+

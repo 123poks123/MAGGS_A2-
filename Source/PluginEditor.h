@@ -16,7 +16,7 @@
 //==============================================================================
 /**
 */
-class Maggs_a2AudioProcessorEditor  : public AudioProcessorEditor
+class Maggs_a2AudioProcessorEditor  : public AudioProcessorEditor, Slider::Listener
 {
 public:
     Maggs_a2AudioProcessorEditor (Maggs_a2AudioProcessor&);
@@ -25,11 +25,25 @@ public:
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
+    
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
+    Slider mixSlider;
+    Label mixLabel;
+    Slider freqSlider;
+    Label freqLabel;
+    
+    void sliderValueChanged(Slider * slider) override;
+    
+    
+   
+    
     Maggs_a2AudioProcessor& processor;
+    
+    
+    
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Maggs_a2AudioProcessorEditor)
 };
