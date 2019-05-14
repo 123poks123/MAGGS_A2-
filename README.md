@@ -1,5 +1,7 @@
 # MAGGS_A2-
 
+![alt text](https://github.com/123poks123/Maggs-A3/blob/master/Screenshot%202019-05-14%2014.27.05.png)
+
 ## My Second Assessment 
 
 A RingMod Plugin.
